@@ -27,10 +27,11 @@ initialize := {
   assert(scala.util.Properties.isJavaAtLeast("19"), "Java 19 is required!")
 }
 
-
 lazy val root = project
   .in(file("."))
   .settings(
-    version := "0.1.0",
-    libraryDependencies ++= Nil
+    version                     := "1.0.0",
+    libraryDependencies ++= Nil ++
+      lib.config.pureConfigCore ++
+      Nil
   )
