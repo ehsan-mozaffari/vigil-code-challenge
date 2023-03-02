@@ -3,16 +3,17 @@ import sbt._ // For understanding Dependencies object as an sbt file
 object Dependencies {
 
   private object ver {
-    val pureConfig = "0.17.2"
+    val zio       = "2.0.9"
+    val zioConfig = "3.0.7"
   }
 
   object lib {
-    object config {
-      // A type safe scala configuration management supports .conf .json .properties
-      // TODO: change it to this after supporting implicits:
-      //  val pureConfig = Seq("com.github.pureconfig" %% "pureconfig" % ver.pureConfig)
-      //  .map(_.cross(CrossVersion.for3Use2_13))
-      val pureConfigCore = Seq("com.github.pureconfig" %% "pureconfig-core" % ver.pureConfig)
+
+    object zio {
+      val core:           Seq[ModuleID] = Seq("dev.zio" %% "zio" % ver.zio)
+      val config:         Seq[ModuleID] = Seq("dev.zio" %% "zio-config" % ver.zioConfig)
+      val configTypesafe: Seq[ModuleID] = Seq("dev.zio" %% "zio-config-typesafe" % ver.zioConfig)
+      val configMagnolia: Seq[ModuleID] = Seq("dev.zio" %% "zio-config-magnolia" % ver.zioConfig)
     }
   }
 }

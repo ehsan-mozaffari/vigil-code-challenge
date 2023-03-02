@@ -27,11 +27,19 @@ initialize := {
   assert(scala.util.Properties.isJavaAtLeast("19"), "Java 19 is required!")
 }
 
+resolvers ++= Resolver.sonatypeOssRepos("snapshots")
+
+// Add ZIO test in sbt
+testFrameworks += new TestFramework("zio.test.sbt.ZTestFramework")
+
 lazy val root = project
   .in(file("."))
   .settings(
-    version                     := "1.0.0",
-    libraryDependencies ++= Nil ++
-      lib.config.pureConfigCore ++
-      Nil
+    version                      := "1.0.0",
+    libraryDependencies ++= (Nil ++
+      lib.zio.core               ++
+      lib.zio.config             ++
+      lib.zio.configTypesafe     ++
+      lib.zio.configMagnolia     ++
+      Nil).map(library => library withSources () withJavadoc ())
   )
