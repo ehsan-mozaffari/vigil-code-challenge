@@ -1,0 +1,19 @@
+version: '3'
+services:
+  database:
+    image: "postgres:15.2" # use 15.2 official postgres version
+    container_name: "vigil-database-postgres"
+    env_file:
+      - postgres.env # configure postgres
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - postgres-data:/var/lib/postgresql/data/ # persist data even if container shuts down
+
+volumes:
+  postgres-data: # named volumes can be managed easier using docker-compose
