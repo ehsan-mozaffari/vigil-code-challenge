@@ -9,8 +9,8 @@ object TestRunner extends App {
   Flyway
     .migrateDb(
       PostgresDatabaseConfig(
-        user         = Some("db_pg_user"),
-        pass         = Some("PleaseDon'tHackMe"),
+        user         = Some("postgres"),
+        pass         = Some("simplepass"),
         databaseName = "social_media"
       )
     )
