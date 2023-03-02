@@ -7,7 +7,9 @@ import zio.config.magnolia.descriptor
 import zio.config.typesafe.TypesafeConfigSource
 
 case class Host(url: String, port: String)
-case class ZPConfig(host: Host)
+case class Postgres(host:String, port: String, user: String, pass: String, databaseName: String)
+case class DB(postgres:Postgres)
+case class ZPConfig(host: Host, db: DB)
 
 /***
  * This is a ZIO Pure Configuration (ZPConfig) that collaborates pure configuration management.
