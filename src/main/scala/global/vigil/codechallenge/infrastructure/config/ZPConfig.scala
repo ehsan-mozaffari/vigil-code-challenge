@@ -8,6 +8,10 @@ import zio.config.typesafe.TypesafeConfigSource
 
 case class Host(url: String, port: String)
 case class ZPConfig(host: Host)
+
+/***
+ * This is a ZIO Pure Configuration (ZPConfig) that collaborates pure configuration management.
+ */
 object ZPConfig {
   private lazy val layer: ZLayer[Any, ReadError[String], ZPConfig] =
     ZLayer(read(descriptor[ZPConfig].from(TypesafeConfigSource.fromResourcePath)))
