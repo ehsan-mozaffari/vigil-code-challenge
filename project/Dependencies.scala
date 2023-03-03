@@ -9,6 +9,11 @@ object Dependencies {
     val zioConfig      = "3.0.7"
     val fly4s          = "0.0.17"
     val postgresDriver = "42.5.4"
+    val zioHttp        = "0.0.4"
+    val zioJson        = "0.4.2"
+    val munit          = "0.7.29"
+    val tapir          = "1.2.9"
+    val quill          = "4.6.0.1"
   }
 
   object lib {
@@ -29,15 +34,46 @@ object Dependencies {
       val config:         Seq[ModuleID] = Seq("dev.zio" %% "zio-config" % ver.zioConfig)
       val configTypesafe: Seq[ModuleID] = Seq("dev.zio" %% "zio-config-typesafe" % ver.zioConfig)
       val configMagnolia: Seq[ModuleID] = Seq("dev.zio" %% "zio-config-magnolia" % ver.zioConfig)
+
+      val streams:   Seq[ModuleID] = Seq("dev.zio" %% "zio-streams" % ver.zio)
+      val test:      Seq[ModuleID] = Seq("dev.zio" %% "zio-test" % ver.zio)
+      val testSbt:   Seq[ModuleID] = Seq("dev.zio" %% "zio-test-sbt" % ver.zio)
+      val testJUnit: Seq[ModuleID] = Seq("dev.zio" %% "zio-test-junit" % ver.zio)
+      val json:      Seq[ModuleID] = Seq("dev.zio" %% "zio-json" % ver.zioJson)
+      val http:      Seq[ModuleID] = Seq("dev.zio" %% "zio-http" % ver.zioHttp)
     }
+
     object database {
 
-      object driver    {
+      object quill {
+        // Quill provides a Quoted Domain Specific Language (QDSL) to express queries in Scala in SQL & CQL
+        val core: Seq[ModuleID] = Seq("io.getquill" %% "quill-jdbc-zio" % ver.quill)
+      }
+
+      object driver {
         val postgres = Seq("org.postgresql" % "postgresql" % ver.postgresDriver)
       }
+
       object migration {
         val fly4s = Seq("com.github.geirolz" %% "fly4s-core" % ver.fly4s)
       }
     }
+
+    object test {
+      // map for the sake of learning
+      val munit: Seq[ModuleID] = Seq("org.scalameta" %% "munit" % ver.munit).map(_ % Test)
+    }
+
+    object api {
+
+      object tapir {
+        // contains an interpreter useful when exposing the endpoints using the ZIO Http server via Tapir
+        // which already depends on tapir-zio
+        val zioHttpServer: Seq[ModuleID] = Seq(
+          "com.softwaremill.sttp.tapir" %% "tapir-zio-http-server" % ver.tapir
+        )
+      }
+    }
+
   }
 }
