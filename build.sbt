@@ -38,8 +38,14 @@ lazy val root = project
       lib.zio.config               ++
       lib.zio.configTypesafe       ++
       lib.zio.configMagnolia       ++
+      lib.api.tapir.zioHttpServer  ++
+      lib.zio.http                 ++
+      lib.zio.streams              ++
+      lib.zio.json                 ++
+      lib.test.munit               ++
       lib.database.migration.fly4s ++
       lib.database.driver.postgres ++
+      lib.database.quill.core      ++
       Nil)
       .map(library =>
         library withSources () withJavadoc () // Download source and Java Doc without IDE plugin
