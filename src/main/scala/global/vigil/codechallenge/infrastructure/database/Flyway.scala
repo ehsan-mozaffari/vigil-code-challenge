@@ -22,7 +22,7 @@ object Flyway {
   case class PostgresDatabaseConfig(
       host:                String         = "localhost",
       port:                String         = "5432",
-      user:                Option[String] = None,
+      user:                Option[String] = Some("postgres"),
       pass:                Option[String] = None,
       databaseName:        String,
       migrationsLocations: List[String]   = List("db")
