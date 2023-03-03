@@ -29,17 +29,19 @@ initialize := {
 
 resolvers ++= Resolver.sonatypeOssRepos("snapshots")
 
-// Add ZIO test in sbt
-testFrameworks += new TestFramework("zio.test.sbt.ZTestFramework")
-
 lazy val root = project
   .in(file("."))
   .settings(
-    version                      := "1.0.0",
-    libraryDependencies ++= (Nil ++
-      lib.zio.core               ++
-      lib.zio.config             ++
-      lib.zio.configTypesafe     ++
-      lib.zio.configMagnolia     ++
-      Nil).map(library => library withSources () withJavadoc ())
+    version                        := "1.0.0",
+    libraryDependencies ++= (Nil   ++
+      lib.zio.core                 ++
+      lib.zio.config               ++
+      lib.zio.configTypesafe       ++
+      lib.zio.configMagnolia       ++
+      lib.database.migration.fly4s ++
+      lib.database.driver.postgres ++
+      Nil)
+      .map(library =>
+        library withSources () withJavadoc () // Download source and Java Doc without IDE plugin
+      )
   )
