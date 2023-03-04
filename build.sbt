@@ -32,20 +32,23 @@ resolvers ++= Resolver.sonatypeOssRepos("snapshots")
 lazy val root = project
   .in(file("."))
   .settings(
-    version                        := "1.0.0",
-    libraryDependencies ++= (Nil   ++
-      lib.zio.core                 ++
-      lib.zio.config               ++
-      lib.zio.configTypesafe       ++
-      lib.zio.configMagnolia       ++
-      lib.api.tapir.zioHttpServer  ++
-      lib.zio.http                 ++
-      lib.zio.streams              ++
-      lib.zio.json                 ++
-      lib.test.munit               ++
-      lib.database.migration.fly4s ++
-      lib.database.driver.postgres ++
-      lib.database.quill.core      ++
+    version                         := "1.0.0",
+    libraryDependencies ++= (Nil    ++
+      lib.zio.core                  ++
+      lib.zio.config                ++
+      lib.zio.configTypesafe        ++
+      lib.zio.configMagnolia        ++
+      lib.api.tapir.zioHttpServer   ++
+      lib.api.tapir.swaggerUiBundle ++
+      lib.api.tapir.jsonZio         ++
+      lib.api.tapir.sttpStubServer  ++
+      lib.zio.http                  ++
+      lib.zio.streams               ++
+      lib.zio.json                  ++
+      lib.test.munit                ++
+      lib.database.migration.fly4s  ++
+      lib.database.driver.postgres  ++
+      lib.database.quill.core       ++
       Nil)
       .map(library =>
         library withSources () withJavadoc () // Download source and Java Doc without IDE plugin

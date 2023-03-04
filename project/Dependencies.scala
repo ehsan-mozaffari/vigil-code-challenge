@@ -69,8 +69,17 @@ object Dependencies {
       object tapir {
         // contains an interpreter useful when exposing the endpoints using the ZIO Http server via Tapir
         // which already depends on tapir-zio
-        val zioHttpServer: Seq[ModuleID] = Seq(
+        val zioHttpServer:   Seq[ModuleID] = Seq(
           "com.softwaremill.sttp.tapir" %% "tapir-zio-http-server" % ver.tapir
+        )
+        val swaggerUiBundle: Seq[ModuleID] = Seq(
+          "com.softwaremill.sttp.tapir" %% "tapir-swagger-ui-bundle" % ver.tapir
+        )
+        val jsonZio:         Seq[ModuleID] = Seq(
+          "com.softwaremill.sttp.tapir" %% "tapir-json-zio" % ver.tapir
+        )
+        val sttpStubServer:  Seq[ModuleID] = Seq(
+          "com.softwaremill.sttp.tapir" %% "tapir-sttp-stub-server" % ver.tapir % Test
         )
       }
     }
