@@ -83,6 +83,34 @@ object Dependencies {
         )
       }
     }
+  }
 
+  object common {
+    val endpoints = (Nil ++
+      lib.api.tapir.zioHttpServer   ++
+      lib.api.tapir.swaggerUiBundle ++
+      lib.api.tapir.jsonZio         ++
+      lib.api.tapir.sttpStubServer  ++
+      Nil)
+      .map(library =>
+        library withSources () withJavadoc () // Download source and Java Doc without IDE plugin
+      )
+
+    val core = (Nil ++
+      lib.zio.core                 ++
+      lib.zio.config               ++
+      lib.zio.configTypesafe       ++
+      lib.zio.configMagnolia       ++
+      lib.zio.http                 ++
+      lib.zio.streams              ++
+      lib.zio.json                 ++
+      lib.test.munit               ++
+      lib.database.migration.fly4s ++
+      lib.database.driver.postgres ++
+      lib.database.quill.core      ++
+      Nil)
+      .map(library =>
+        library withSources () withJavadoc () // Download source and Java Doc without IDE plugin
+      )
   }
 }
