@@ -1,7 +1,8 @@
 import Dependencies._
 logLevel := Level.Info
 
-name := "vigil code challenge"
+name    := "vigil code challenge"
+version := "1.0.0"
 
 lazy val scala3Version = "3.2.2"
 scalaVersion := scala3Version
@@ -29,28 +30,17 @@ initialize := {
 
 resolvers ++= Resolver.sonatypeOssRepos("snapshots")
 
+
 lazy val root = project
   .in(file("."))
-  .settings(
-    version                         := "1.0.0",
-    libraryDependencies ++= (Nil    ++
-      lib.zio.core                  ++
-      lib.zio.config                ++
-      lib.zio.configTypesafe        ++
-      lib.zio.configMagnolia        ++
-      lib.api.tapir.zioHttpServer   ++
-      lib.api.tapir.swaggerUiBundle ++
-      lib.api.tapir.jsonZio         ++
-      lib.api.tapir.sttpStubServer  ++
-      lib.zio.http                  ++
-      lib.zio.streams               ++
-      lib.zio.json                  ++
-      lib.test.munit                ++
-      lib.database.migration.fly4s  ++
-      lib.database.driver.postgres  ++
-      lib.database.quill.core       ++
-      Nil)
-      .map(library =>
-        library withSources () withJavadoc () // Download source and Java Doc without IDE plugin
-      )
-  )
+  .dependsOn(user)
+
+lazy val util = project.in(file("util"))
+
+lazy val userModel    =  project.in(file("services/user/model"))
+lazy val userEndpoint =  project.in(file("services/user/endpoint"))
+    .settings(libraryDependencies ++= common.endpoints).dependsOn(userModel)
+lazy val userService  =  project.in(file("services/user/service"))
+    .settings(libraryDependencies ++= common.core)
+lazy val user         =
+  project.in(file("services/user")).dependsOn(userEndpoint, userService)
