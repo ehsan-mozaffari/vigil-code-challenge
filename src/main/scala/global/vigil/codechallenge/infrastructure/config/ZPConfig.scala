@@ -6,7 +6,7 @@ import zio.config.*
 import zio.config.magnolia.descriptor
 import zio.config.typesafe.TypesafeConfigSource
 
-case class Host(url: String, port: String)
+case class Host(url: String, port: Int)
 case class Postgres(host:String, port: String, user: String, pass: String, databaseName: String)
 case class DB(postgres:Postgres)
 case class ZPConfig(host: Host, db: DB)

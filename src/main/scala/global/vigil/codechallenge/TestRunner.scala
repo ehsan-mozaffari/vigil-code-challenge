@@ -9,23 +9,15 @@ import io.getquill.*
 import io.getquill.context.ZioJdbc.DataSourceLayer
 import zio.{ZIO, ZIOAppDefault, ZLayer}
 
-object TestRunner extends ZIOAppDefault {
-//  Flyway
-//    .migrateDb(
-//      PostgresDatabaseConfig(
-//        user         = Some("postgres"),
-//        pass         = Some("simplepass"),
-//        databaseName = "social_media"
-//      )
-//    )
-//    .use(dmr => IO(println(dmr)))
-//    .unsafeRunSync()
-
-  override def run: ZIO[Any, Any, Any] ={
-    import DB._
-    val zioDS = DataSourceLayer.fromPrefix("ctx")
-    val a = DB.run(quote(query[User])).provideLayer(zioDS)
-    ZIO.succeed(println("dsfdsf"))
-    a
-  }
+object TestRunner extends App {
+  Flyway
+    .migrateDb(
+      PostgresDatabaseConfig(
+        user         = Some("postgres"),
+        pass         = Some("simplepass"),
+        databaseName = "social_media"
+      )
+    )
+    .use(dmr => IO(println(dmr)))
+    .unsafeRunSync()
 }

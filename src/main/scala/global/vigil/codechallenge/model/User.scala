@@ -1,5 +1,7 @@
 package global.vigil.codechallenge.model
 
+import zio.json.{DeriveJsonCodec, JsonCodec}
+
 import java.time.Instant
 
 case class User(
@@ -17,8 +19,10 @@ case class User(
 //    followedUserIds: List[UserId],
 //    isOnline:        IsOnline
 //)
-//object User {
-//
+object User {
+
+  given userZioCodec: JsonCodec[User] = DeriveJsonCodec.gen[User]
+
 //  opaque type UserId = Int
 //
 //  object UserId {
@@ -47,5 +51,5 @@ case class User(
 //    def unApply(value: IsOnline): Option[Boolean] = Some(value)
 //    extension (v:      IsOnline) { def value: Boolean = v }
 //  }
-//
-//}
+
+}

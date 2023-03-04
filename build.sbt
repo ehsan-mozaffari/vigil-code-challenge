@@ -2,6 +2,7 @@ import Dependencies._
 logLevel := Level.Info
 
 name := "vigil code challenge"
+version:= "1.0.0"
 
 lazy val scala3Version = "3.2.2"
 scalaVersion := scala3Version
@@ -32,7 +33,6 @@ resolvers ++= Resolver.sonatypeOssRepos("snapshots")
 lazy val root = project
   .in(file("."))
   .settings(
-    version                         := "1.0.0",
     libraryDependencies ++= (Nil    ++
       lib.zio.core                  ++
       lib.zio.config                ++
@@ -53,4 +53,21 @@ lazy val root = project
       .map(library =>
         library withSources () withJavadoc () // Download source and Java Doc without IDE plugin
       )
+
   )
+
+lazy val services = project
+
+lazy val `services.user-endpoint` =
+  project
+
+
+lazy val `user-service` =
+  project
+    .dependsOn(
+      `services.user-endpoint`
+    )
+
+lazy val `user-core` =
+  project
+    .aggregate(`services.user-endpoint`, `user-service`)
