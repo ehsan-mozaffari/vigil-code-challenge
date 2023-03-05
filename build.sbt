@@ -30,8 +30,8 @@ initialize := {
 
 resolvers ++= Resolver.sonatypeOssRepos("snapshots")
 
-lazy val root = project
-  .in(file("."))
+lazy val services = project
+  .in(file("services"))
   .dependsOn(user)
   .settings(scalaVersion := scala3Version)
 

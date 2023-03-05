@@ -1,21 +1,20 @@
 package global.vigil.codechallenge
 
-import global.vigil.codechallenge.api.endpoint.Route
-
-import zio.{Console, ExitCode, Scope, Task, ZIO, ZIOAppArgs, ZIOAppDefault, ZLayer}
-import org.slf4j.LoggerFactory
+import global.vigil.codechallenge.route.Route
 import global.vigil.codechallenge.util.config.ZPConfig
+import org.slf4j.LoggerFactory
 import sttp.tapir.server.interceptor.log.DefaultServerLog
 import sttp.tapir.server.ziohttp.{ZioHttpInterpreter, ZioHttpServerOptions}
 import zio.http.{HttpApp, Server, ServerConfig}
+import zio.{Console, ExitCode, Scope, Task, ZIO, ZIOAppArgs, ZIOAppDefault, ZLayer}
 
-object ZIOTapir extends ZIOAppDefault {
+object TapirMain extends ZIOAppDefault {
 
   override def run: ZIO[Any with ZIOAppArgs with Scope, Any, Any] = {
 
     val log = LoggerFactory.getLogger(ZioHttpInterpreter.getClass.getName)
 
-    lazy val conf = ZPConfig()
+    lazy val appConfing = ZPConfig()
 
     val serverOptions: ZioHttpServerOptions[Any] =
       ZioHttpServerOptions.customiseInterceptors
@@ -34,18 +33,18 @@ object ZIOTapir extends ZIOAppDefault {
     val app:           HttpApp[Any, Throwable]   = ZioHttpInterpreter(serverOptions).toHttp(Route.all)
 
     for {
-      port <- conf.map(c => (c.host.host, c.host.port))
+      conf <- appConfing
       res  <- (for
                 actualPort <- Server.install(app.withDefaultErrorResponse)
 
                 _ <-
                   Console.printLine(
-                    s"Go to http://localhost:${actualPort}/docs to open SwaggerUI. Press ENTER key to exit."
+                    s"Go to http://${conf.host.url}:$actualPort/docs to open SwaggerUI. Press ENTER key to exit."
                   )
                 _ <- Console.readLine
               yield ())
                 .provide(
-                  ServerConfig.live(ServerConfig.default.port(port)),
+                  ServerConfig.live(ServerConfig.default.port(conf.host.port)),
                   Server.live,
                   ZLayer.Debug.mermaid
                 )
