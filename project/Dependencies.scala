@@ -112,5 +112,18 @@ object Dependencies {
       .map(library =>
         library withSources () withJavadoc () // Download source and Java Doc without IDE plugin
       )
+
+    val util = (Nil ++
+      lib.zio.core                 ++
+      lib.zio.config               ++
+      lib.zio.configTypesafe       ++
+      lib.zio.configMagnolia       ++
+      lib.database.migration.fly4s ++
+      lib.database.driver.postgres ++
+      lib.database.quill.core      ++
+      Nil)
+      .map(library =>
+        library withSources () withJavadoc () // Download source and Java Doc without IDE plugin
+      )
   }
 }

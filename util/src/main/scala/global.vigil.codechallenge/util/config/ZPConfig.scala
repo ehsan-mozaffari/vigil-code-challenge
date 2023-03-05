@@ -1,4 +1,4 @@
-package global.vigil.codechallenge.infrastructure.config
+package global.vigil.codechallenge.util.config
 
 import global.vigil.codechallenge.infrastructure.config.{Host, ZPConfig}
 import zio.*

@@ -1,4 +1,4 @@
-package global.vigil.codechallenge.infrastructure.database
+package global.vigil.codechallenge.util.database
 
 import io.getquill.{PostgresZioJdbcContext, SnakeCase}
 

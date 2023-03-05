@@ -1,9 +1,10 @@
-package global.vigil.codechallenge.infrastructure.database
+package global.vigil.codechallenge.util.database
 
 import cats.effect.*
 import fly4s.core.*
 import fly4s.core.data.*
 import fly4s.implicits.*
+
 object Flyway {
 
   /** *
