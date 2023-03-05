@@ -1,6 +1,6 @@
 package global.vigil.codechallenge.util.config
 
-import global.vigil.codechallenge.infrastructure.config.{Host, ZPConfig}
+import global.vigil.codechallenge.util.config.{Host, ZPConfig}
 import zio.*
 import zio.config.*
 import zio.config.magnolia.descriptor
