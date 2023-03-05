@@ -4,7 +4,7 @@ logLevel := Level.Info
 name    := "vigil code challenge"
 version := "1.0.0"
 
-lazy val scala3Version = "3.2.2"
+val scala3Version = "3.2.2"
 scalaVersion := scala3Version
 
 scalacOptions ++= Seq(
@@ -30,17 +30,31 @@ initialize := {
 
 resolvers ++= Resolver.sonatypeOssRepos("snapshots")
 
-
 lazy val root = project
   .in(file("."))
   .dependsOn(user)
+  .settings(scalaVersion := scala3Version)
 
-lazy val util = project.in(file("util"))
+lazy val util = project
+  .in(file("util"))
+  .settings(
+    libraryDependencies ++= common.util,
+    scalaVersion := scala3Version
+  )
 
-lazy val userModel    =  project.in(file("services/user/model"))
-lazy val userEndpoint =  project.in(file("services/user/endpoint"))
-    .settings(libraryDependencies ++= common.endpoints).dependsOn(userModel)
-lazy val userService  =  project.in(file("services/user/service"))
-    .settings(libraryDependencies ++= common.core)
+lazy val userModel    = project.in(file("services/user/model")).settings(scalaVersion := scala3Version)
+lazy val userEndpoint = project
+  .in(file("services/user/endpoint"))
+  .settings(libraryDependencies ++= common.endpoints, scalaVersion := scala3Version)
+  .dependsOn(util, userModel)
+lazy val userService  = project
+  .in(file("services/user/service"))
+  .settings(
+    libraryDependencies ++= common.core,
+    scalaVersion := scala3Version
+  )
 lazy val user         =
-  project.in(file("services/user")).dependsOn(userEndpoint, userService)
+  project
+    .in(file("services/user"))
+    .dependsOn(userEndpoint, userService)
+    .settings(scalaVersion := scala3Version)
