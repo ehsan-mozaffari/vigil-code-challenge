@@ -13,10 +13,12 @@ object Flyway {
     *   Database host for example localhost
     * @param port
     *   Database port
+    * @param user
+    *   Database user
     * @param pass
     *   Database password
-    * @param migrationsTable
-    *   The target table for migration
+    * @param databaseName  
+    *   The target database that flyway default table resides
     * @param migrationsLocations
     *   The list of location directories in the resource folder
     */
