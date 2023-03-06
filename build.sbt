@@ -42,7 +42,12 @@ lazy val util = project
     scalaVersion := scala3Version
   )
 
-lazy val userModel    = project.in(file("services/user/model")).settings(scalaVersion := scala3Version)
+lazy val userModel    = project
+  .in(file("services/user/model"))
+  .settings(
+    libraryDependencies ++= lib.api.tapir.jsonZio ++ lib.zio.json,
+    scalaVersion := scala3Version
+  )
 lazy val userEndpoint = project
   .in(file("services/user/endpoint"))
   .settings(libraryDependencies ++= common.endpoints, scalaVersion := scala3Version)
@@ -50,11 +55,11 @@ lazy val userEndpoint = project
 lazy val userService  = project
   .in(file("services/user/service"))
   .settings(
-    libraryDependencies ++= common.core,
+    libraryDependencies ++= common.endpoints ++ common.core,
     scalaVersion := scala3Version
-  )
+  ).dependsOn(userModel,userEndpoint,util)
 lazy val user         =
   project
     .in(file("services/user"))
-    .dependsOn(userEndpoint, userService)
+    .dependsOn(userEndpoint,userService)
     .settings(scalaVersion := scala3Version)

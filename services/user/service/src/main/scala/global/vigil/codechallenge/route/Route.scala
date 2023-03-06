@@ -13,4 +13,5 @@ object Route {
       .fromServerEndpoints[Task](apiRoutes, "Vigil Code Challenge API", "1.0.0")
 
   private lazy val apiRoutes: List[ZServerEndpoint[Any, Any]] = UserRoute()
+
 }

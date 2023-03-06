@@ -2,6 +2,7 @@ package global.vigil.codechallenge
 
 import global.vigil.codechallenge.route.Route
 import global.vigil.codechallenge.util.config.ZPConfig
+import global.vigil.codechallenge.util.model.error.Err
 import org.slf4j.LoggerFactory
 import sttp.tapir.server.interceptor.log.DefaultServerLog
 import sttp.tapir.server.ziohttp.{ZioHttpInterpreter, ZioHttpServerOptions}
@@ -14,7 +15,7 @@ object TapirMain extends ZIOAppDefault {
 
     val log = LoggerFactory.getLogger(ZioHttpInterpreter.getClass.getName)
 
-    lazy val appConfing = ZPConfig()
+    lazy val appConfig = ZPConfig()
 
     val serverOptions: ZioHttpServerOptions[Any] =
       ZioHttpServerOptions.customiseInterceptors
@@ -30,10 +31,11 @@ object TapirMain extends ZIOAppDefault {
           )
         )
         .options
-    val app:           HttpApp[Any, Throwable]   = ZioHttpInterpreter(serverOptions).toHttp(Route.all)
+
+    val app: HttpApp[Any, Throwable] = ZioHttpInterpreter(serverOptions).toHttp(Route.all)
 
     for {
-      conf <- appConfing
+      conf <- appConfig
       res  <- (for
                 actualPort <- Server.install(app.withDefaultErrorResponse)
 
