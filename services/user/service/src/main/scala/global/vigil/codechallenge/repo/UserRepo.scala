@@ -11,11 +11,8 @@ trait UserRepo  {
   def get(id: Int): ZIO[Any, Err, User]
 }
 object UserRepo {
-//  val layer: ZLayer[PostgresZioJdbcContext[SnakeCase], Nothing, UserRepo] = ZLayer(
-//    ZIO.service[PostgresZioJdbcContext[SnakeCase]].map(new UserRepoImpl(_))
-//  )
 
-  val layer: ZLayer[DB, Nothing, UserRepo] = ZLayer(
-    ZIO.service[DB].map(new UserRepoImpl(_))
+  val layer: ZLayer[DB.type , Nothing, UserRepo] = ZLayer(
+    ZIO.service[DB.type ].map(new UserRepoImpl(_))
   )
 }
