@@ -1,7 +1,6 @@
 package global.vigil.codechallenge.model
 
-
-import zio.json.JsonCodec
+import global.vigil.codechallenge.util.json.ZioJsonCodec
 
 import java.time.Instant
 
@@ -12,9 +11,7 @@ case class User(
     followedUserIds: List[Int],
     isOnline:        Boolean
 )
-object User{
-  given codec: JsonCodec[User] = JsonCodec[User]
-}
+object User extends ZioJsonCodec[User]
 
 //case class User(
 //    id:              UserId,
