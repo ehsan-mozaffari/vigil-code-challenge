@@ -33,7 +33,10 @@ resolvers ++= Resolver.sonatypeOssRepos("snapshots")
 lazy val services = project
   .in(file("services"))
   .dependsOn(user)
-  .settings(scalaVersion := scala3Version)
+  .settings(
+    libraryDependencies ++= lib.log.logbackClassic,
+    scalaVersion := scala3Version
+  )
 
 lazy val util = project
   .in(file("util"))
@@ -47,7 +50,7 @@ lazy val userModel    = project
   .settings(
     libraryDependencies ++= lib.api.tapir.jsonZio ++ lib.zio.json,
     scalaVersion := scala3Version
-  )
+  ).dependsOn(util)
 lazy val userEndpoint = project
   .in(file("services/user/endpoint"))
   .settings(libraryDependencies ++= common.endpoints, scalaVersion := scala3Version)

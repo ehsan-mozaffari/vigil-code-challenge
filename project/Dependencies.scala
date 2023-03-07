@@ -14,6 +14,7 @@ object Dependencies {
     val munit          = "0.7.29"
     val tapir          = "1.2.9"
     val quill          = "4.6.0.1"
+    val logback        = "1.4.5"
   }
 
   object lib {
@@ -51,11 +52,11 @@ object Dependencies {
       }
 
       object driver {
-        val postgres = Seq("org.postgresql" % "postgresql" % ver.postgresDriver)
+        val postgres : Seq[ModuleID]= Seq("org.postgresql" % "postgresql" % ver.postgresDriver)
       }
 
       object migration {
-        val fly4s = Seq("com.github.geirolz" %% "fly4s-core" % ver.fly4s)
+        val fly4s : Seq[ModuleID]= Seq("com.github.geirolz" %% "fly4s-core" % ver.fly4s)
       }
     }
 
@@ -83,10 +84,14 @@ object Dependencies {
         )
       }
     }
+
+    object log {
+      val logbackClassic: Seq[ModuleID] = Seq("ch.qos.logback" % "logback-classic" % ver.logback)
+    }
   }
 
   object common {
-    val endpoints = (Nil ++
+    val endpoints: Seq[ModuleID] = (Nil ++
       lib.api.tapir.zioHttpServer   ++
       lib.api.tapir.swaggerUiBundle ++
       lib.api.tapir.jsonZio         ++
@@ -96,7 +101,7 @@ object Dependencies {
         library withSources () withJavadoc () // Download source and Java Doc without IDE plugin
       )
 
-    val core = (Nil ++
+    val core: Seq[ModuleID] = (Nil ++
       lib.zio.core                 ++
       lib.zio.config               ++
       lib.zio.configTypesafe       ++
@@ -113,11 +118,13 @@ object Dependencies {
         library withSources () withJavadoc () // Download source and Java Doc without IDE plugin
       )
 
-    val util = (Nil ++
+    val util : Seq[ModuleID]= (Nil ++
       lib.zio.core                 ++
       lib.zio.config               ++
       lib.zio.configTypesafe       ++
       lib.zio.configMagnolia       ++
+      lib.api.tapir.jsonZio        ++
+      lib.api.tapir.sttpStubServer ++
       lib.database.migration.fly4s ++
       lib.database.driver.postgres ++
       lib.database.quill.core      ++
