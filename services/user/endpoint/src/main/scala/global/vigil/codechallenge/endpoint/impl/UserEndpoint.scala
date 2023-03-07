@@ -16,4 +16,8 @@ trait UserEndpoint extends BaseEndpoint{
       .in(path[Int]("id"))
       .out(jsonBody[User])
       .errorOut(jsonBody[Err])
+
+  val rootEndpoint = endpoint.get
+    .in("test")
+    .out(stringJsonBody)
 }

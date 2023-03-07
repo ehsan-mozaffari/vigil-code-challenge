@@ -15,7 +15,7 @@ object TapirMain extends ZIOAppDefault {
 
     val log = LoggerFactory.getLogger(ZioHttpInterpreter.getClass.getName)
 
-    lazy val appConfig = ZPConfig()
+//    lazy val appConfig = ZPConfig()
 
     val serverOptions: ZioHttpServerOptions[Any] =
       ZioHttpServerOptions.customiseInterceptors
@@ -32,26 +32,21 @@ object TapirMain extends ZIOAppDefault {
         )
         .options
 
+    
     val app: HttpApp[Any, Throwable] = ZioHttpInterpreter(serverOptions).toHttp(Route.all)
 
-    for {
-      conf <- appConfig
-      res  <- (for
-                actualPort <- Server.install(app.withDefaultErrorResponse)
+    val port = sys.env.get("HTTP_PORT").flatMap(_.toIntOption).getOrElse(8080)
 
-                _ <-
-                  Console.printLine(
-                    s"Go to http://${conf.host.url}:$actualPort/docs to open SwaggerUI. Press ENTER key to exit."
-                  )
-                _ <- Console.readLine
-              yield ())
-                .provide(
-                  ServerConfig.live(ServerConfig.default.port(conf.host.port)),
-                  Server.live,
-                  ZLayer.Debug.mermaid
-                )
-                .exitCode
-    } yield res
-
+    (
+      for
+        _ <- Console.printLine(s"test")
+        actualPort <- Server.install(app.withDefaultErrorResponse)
+        _ <- Console.printLine(s"Go to http://localhost:${actualPort}/docs to open SwaggerUI.")
+        _ <- Console.readLine
+      yield ()
+      ).provide(
+      ServerConfig.live(ServerConfig.default.port(port)),
+      Server.live
+    ).exitCode
   }
 }

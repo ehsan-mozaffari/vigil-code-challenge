@@ -15,9 +15,10 @@ import zio.ZIO.ServiceWithZIOPartiallyApplied
 object UserRoute extends UserEndpoint {
 
   private def zUserService(f: UserService => ZIO[UserService, Err, User]) =
-    ZIO.serviceWithZIO[UserService](f).provide(UserService.layer, UserRepo.layer, DB.layer)
+    ZIO.serviceWithZIO[UserService](f).provide(UserService.layer, UserRepo.layer,DB.layer)
 
   def apply(): List[ZServerEndpoint[Any, Any]] = List(
+    rootEndpoint.serverLogicSuccess(_ => ZIO.succeed("Hello to my service!")),
     getUserByIdEndpoint.zServerLogic(id => zUserService(_.getUserById(id)))
   )
 }
